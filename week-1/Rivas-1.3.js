@@ -11,7 +11,7 @@
 //url
 var url = require("url");
 
-var parsedURL = url.parse("https://www.example.com/profile?name=rivas");
+var parsedURL = url.parse("https://github.com/rhondarivas/web-340/profile?name=rivas");
 
 console.log(parsedURL.protocol);
 
