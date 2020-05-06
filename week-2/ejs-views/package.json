@@ -1,0 +1,9 @@
+{
+ "name": "Rhonda-Rivas",
+ "author": "Professor Krasso",
+ "private": true,
+ "dependencies": {
+  "ejs": "^3.1.2",
+  "express": "^4.17.1"
+ }
+}
