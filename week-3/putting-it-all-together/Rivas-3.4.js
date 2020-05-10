@@ -7,7 +7,6 @@
 ; Express middleware,logging and routing
 ===========================================
 */
-//start program
 
 var express = require("express");
 
