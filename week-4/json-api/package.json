@@ -1,0 +1,8 @@
+{
+  "name": "json-exampke-api",
+  "author": "rhonda rivas",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
