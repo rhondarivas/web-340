@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html>
+
+<lang en="us">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+  crossorigin="anonymous">
+  <link rel="stylesheet"href="/style.css">
+
+  <body>
+    <%- include ('header') -%>
+
+    <%- include ('navbar') -%>
+    <div id ="container">
+        <h1>Employee Records</h1>
+        <a href="new.ejs"><button class="button" id="new">Add New Employee</button></a>
+        <a href="view.ejs"><button class="button" id="find">Search Employees</button></a>
+        <a href="list.ejs"><button class="button" id="view">View Current Employees</button></a>
+    </div>
+
+    <%- include ('footer') -%>
+</body>
+
+</html>
