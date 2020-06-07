@@ -1,0 +1,12 @@
+{
+  "name": "tdd-mocha",
+  "author": "rhonda rivas",
+  "private": true,
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
