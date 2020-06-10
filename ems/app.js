@@ -13,6 +13,28 @@ var express = require("express");
 var http = require("http");
 var path = require("path");
 var logger = require("morgan");
+var mongoose = require("mongoose");
+
+//this allows express to know where to find the employee model
+var Employee = require("./models/employee")
+
+// MongoDB connection
+var mongoDB="mongodb+srv://useradmin:eastwood1930@buwebdev-cluster-1-992kq.mongodb.net/test"
+mongoose.connect(mongoDB, {
+  useMongoClient:true
+});
+
+mongoose.Promise = global.Promise;
+
+//sets the mongoose connection to a variable
+var db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "MongoDB connection error: "));
+
+db.once("open", function(){
+    console.log("Application connected to MongoDB instance");
+});
+
 
 //creates the express application to a variable
 var app = express();
