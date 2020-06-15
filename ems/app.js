@@ -14,6 +14,7 @@ var http = require("http");
 var path = require("path");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var helmet = require("helmet");
 
 //this allows express to know where to find the employee model
 var Employee = require("./models/employee")
@@ -51,6 +52,10 @@ app.set("view engine", "ejs");
 
 //the short version of the morgan logger
 app.use(logger("short"));
+
+//enables helmet logger
+app.use(logger("short"));
+app.use(helmet.xssFilter());
 
 //displays/responds with  the homepage when the site is accessed
 app.get("/", function(request, response){
