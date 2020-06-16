@@ -5,7 +5,7 @@
 ; Modified By: Rhonda Rivas
 ; Description: This program demonstrates the
 ; EMS milestone - model schema/employee model app
-===========================================
+==============================================
 */
 
 //requires the use of the express, http, mongoose

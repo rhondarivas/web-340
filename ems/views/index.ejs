@@ -18,6 +18,34 @@
         <a href="view.ejs"><button class="button" id="find">Search Employees</button></a>
         <a href="list.ejs"><button class="button" id="view">View Current Employees</button></a>
     </div>
+    <div role="main" class="container">
+
+      <br/><br/>
+
+      <h2><%= message %></h2>
+
+      <form method="post" action="/process">
+
+          <div class="form-group">
+
+              txtName">Name:
+
+                          txtName" name="txtName"/>
+
+          </div>
+
+          <div class="form-group">
+<!-- CSRF token -->
+<input name="_csrf" value="<%= csrfToken %>" type="hidden" />
+
+<button type="submit" class="btn btn-primary float-right">
+  Submit
+</button>
+</div>
+
+</form>
+
+</div>
 
     <%- include ('footer') -%>
 </body>

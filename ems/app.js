@@ -15,6 +15,10 @@ var path = require("path");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var helmet = require("helmet");
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var csrf = require('csurf');
+var employee = require('./models/employee');
 
 //this allows express to know where to find the employee model
 var Employee = require("./models/employee")
@@ -36,6 +40,10 @@ db.once("open", function(){
     console.log("Application connected to MongoDB instance");
 });
 
+/**
+ * This sets up CSRF protection.
+ */
+let csrfProtection = csrf({ cookie: true });
 
 //creates the express application to a variable
 var app = express();
@@ -46,10 +54,31 @@ app.set("views", path.resolve(__dirname, "views"));
 //enables express know where to find public/css files
 app.use(express.static(__dirname + '/'));
 
-
 //enables express know to use the ejs view engine
 app.set("view engine", "ejs");
 
+app.set("views", path.resolve(__dirname, "views"));
+
+app.set("view engine", "ejs");
+
+
+app.get("/", function(request, response) {
+
+  response.render("index", {
+
+      message: "New Fruit Entry Page"
+
+  });
+
+});
+
+app.post("/process", function(request, response) {
+
+  console.log(request.body.txtName);
+
+  response.redirect("/");
+
+});
 //the short version of the morgan logger
 app.use(logger("short"));
 
@@ -57,11 +86,49 @@ app.use(logger("short"));
 app.use(logger("short"));
 app.use(helmet.xssFilter());
 
-//displays/responds with  the homepage when the site is accessed
+app.use(bodyParser.urlencoded({
+
+  extended: true
+
+}));
+
+app.use(cookieParser());
+
+app.use(csrfProtection);
+
+app.use(function(request, response, next) {
+
+  var token = request.csrfToken();
+
+  response.cookie('XSRF-TOKEN', token);
+
+  response.locals.csrfToken = token;
+
+  next();
+
+});
+
+//this displays or responds with the homepage when the site is accessed
 app.get("/", function(request, response){
     response.render("index", {
         title: "Home page"
     });
+});
+
+// this is the Cookie parser
+app.use(cookieParser());
+// Helmet
+app.use(helmet.xssFilter());
+// this is the CSRF protection
+app.use(csrfProtection);
+/**
+ * This intercepts all incoming requests and adds a CSRF token to it's response.
+ */
+app.use(function(req, res, next) {
+  var token = req.csrfToken();
+  res.cookie('XSRF-TOKEN', token);
+  res.locals.csrfToken = token;
+  next();
 });
 
 //local server on port 8080 and prints message
