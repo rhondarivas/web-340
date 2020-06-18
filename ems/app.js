@@ -57,31 +57,71 @@ app.set("views", path.resolve(__dirname, "views"));
 //enables express know where to find public/css files
 app.use(express.static(__dirname + '/'));
 
-//enables express know to use the ejs view engine
-app.set("view engine", "ejs");
-
+// set statements
 app.set("views", path.resolve(__dirname, "views"));
-
 app.set("view engine", "ejs");
 
+// http calls
+app.get("/", function (req, res){
+    res.render("index",{
+        message: "Homepage"
+    });
+});
 
-app.get("/", function(request, response) {
-
-  response.render("index", {
-
-      message: "New Fruit Entry Page"
-
+app.get('/new', function(req, res) {
+    res.render('new', {
+      message: 'Add New Employee'
+    });
   });
 
+  //redirects to the new employee entry page
+app.get("/new", function(request, response){
+  response.render("new", {
+    title: "New Employee Entry",
+    message: "Enter New Employee"
+  });
 });
 
-app.post("/process", function(request, response) {
-
-  console.log(request.body.txtName);
-
-  response.redirect("/");
-
+//redirects to the list page
+app.get("/list", function(request, response){
+  Employee.find({}, function(error, employees){
+    if (error) throw error;
+    response.render("list", {
+      title: "Current Employees",
+      employees: employees
+    });
+  });
 });
+
+//redirects the page after form submission
+app.post("/process", function(request, response){
+    if(!request.body.txtFirstName){
+      response.status(400).send("Entries must have a name");
+      return;
+    }
+    if(!request.body.txtLastName){
+      response.status(400).send("Entries must have a name");
+      return;
+    }
+    //get request form data
+    var empName = request.body.txtFirstName + " " + request.body.txtLastName;
+    console.log(empName)
+    //create an employee model
+    var employee = new Employee({
+      name: empName
+    });
+    //save
+    employee.save(function(err){
+      if (err){
+        console.log(err);
+        throw err;
+      } else {
+        console.log(empName + " saved successfully!");
+        response.redirect("/");
+      }
+    });
+});
+
 //the short version of the morgan logger
 app.use(logger("short"));
 
@@ -95,44 +135,20 @@ app.use(bodyParser.urlencoded({
 
 }));
 
-app.use(cookieParser());
-
-app.use(csrfProtection);
-
-app.use(function(request, response, next) {
-
-  var token = request.csrfToken();
-
-  response.cookie('XSRF-TOKEN', token);
-
-  response.locals.csrfToken = token;
-
-  next();
-
-});
-
-//this displays or responds with the homepage when the site is accessed
-app.get("/", function(request, response){
-    response.render("index", {
-        title: "Home page"
-    });
-});
-
-// this is the Cookie parser
-app.use(cookieParser());
-// Helmet
+//uses the helmet cross site scripting filter
 app.use(helmet.xssFilter());
-// this is the CSRF protection
+//uses cookie parser
+app.use(cookieParser());
+//uses csurf Protection
 app.use(csrfProtection);
-/**
- * This intercepts all incoming requests and adds a CSRF token to it's response.
- */
-app.use(function(req, res, next) {
-  var token = req.csrfToken();
-  res.cookie('XSRF-TOKEN', token);
-  res.locals.csrfToken = token;
+//sets up use of csrf tokens
+app.use(function(request, response, next){
+  var token = request.csrfToken();
+  response.cookie('XSRF-TOKEN', token);
+  response.locals.csrfToken = token;
   next();
 });
+
 
 //local server on port 8080 and prints message
 http.createServer(app).listen(8080, function(){
