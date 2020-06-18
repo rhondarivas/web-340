@@ -24,20 +24,23 @@ var employee = require('./models/employee');
 var Employee = require("./models/employee")
 
 // MongoDB connection
-var mongoDB="mongodb+srv://useradmin:eastwood1930@buwebdev-cluster-1-992kq.mongodb.net/test"
-mongoose.connect(mongoDB, {
-  useMongoClient:true
+var conn ="mongodb+srv://useradmin:eastwood1930@buwebdev-cluster-1-992kq.mongodb.net/test"
+mongoose.connect(conn, {
+  promiseLibrary: require('bluebird'),
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useCreateIndex: true,
+}).then(() => {
+  console.log('Connection to the database instance was successful');
+}).catch(err => {
+  console.log(`MongoDB Error: ${err.message}`);
 });
-
 mongoose.Promise = global.Promise;
 
-//sets the mongoose connection to a variable
 var db = mongoose.connection;
-
 db.on("error", console.error.bind(console, "MongoDB connection error: "));
-
 db.once("open", function(){
-    console.log("Application connected to MongoDB instance");
+    console.log("Application connected to MongoDB Atlas")
 });
 
 /**

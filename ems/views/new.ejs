@@ -8,40 +8,46 @@
 ==========================================+
 --->
 
-
 <!DOCTYPE html>
-<html lang = "en">
-    <% include header %>
-    <body>
-        <% include navbar %>
-        <div role="main" class="container" style="width: 50%;">
-          <br /><br />
+<html lang="en">
+  <%- include ('header') -%>
 
-          <h2>-- Employee Entry Page --</h2>
-          <form method="post" action="/process">
-            <div class="form-group">
-              <label for="txtName">Name:</label>
-              <input type="text" class="form-control" id="txtName" name="txtName" />
-            </div>
+  <body>
+    <%- include ('navbar') -%>
 
-            <div class="form-group">
-              <!-- CSRF token -->
-              <input name="_csrf" value="<%= csrfToken %>" type="hidden" />
+    <div role="main" class="container" style="width: 50%;">
+      <br />
+      <br />
 
-              <button type="submit" class="btn btn-secondary float-right">
-                Submit
-              </button>
-            </div>
-          </form>
+  <h2><%= message %></h2>
 
-          <br /><br />
+    </br></br>
 
-          <a href="/list">Return to Employeess</a>
-        </div>
+    <form method="post" action="/process">
+      <div class="form-group">
+        <label for="txtFirstName">First Name:</label>
+        <input type="text" class="form-control" id="txtFirstName" name="txtFirstName" />
+      </div>
 
-        <% include scripts %>
-      </body>
-    </html>
-    </body>
-    <% include scripts %>
+      <div class="form-group">
+        <label for="txtLastName">Last Name:</label>
+        <input type="text" class="form-control" id="txtLastName" name="txtLastName" />
+      </div>
+
+      <div class="form-group">
+
+        <!-- CSRF token -->
+        <input name="_csrf" value="<%= csrfToken %>" type="hidden" />
+
+        <button type="submit" class="btn btn-primary float-right">Submit</button>
+      </br></br>
+      </br></br>
+      </br></br>
+      </div>
+    </form>
+    <a href="/list">Return to Employees</a>
+  </div>
+</div>
+</body>
+<%- include('footer') -%>
 </html>
