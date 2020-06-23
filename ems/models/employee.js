@@ -19,5 +19,5 @@ let EmployeeSchema = new Schema({
   id: {type: String, required: true}
 });
 
-// Export the model so its publicly available.
+// Exports the model so its publicly available.
 module.exports = mongoose.model('Employee', EmployeeSchema);
