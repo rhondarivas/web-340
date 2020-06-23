@@ -7,37 +7,35 @@
 ; Description: Employee Records App
 ==========================================+
 --->
-
 <!DOCTYPE html>
 <html lang="en">
-  <link rel="stylesheet" type="text/css" href="../style.css">
 
-    <body>
-        <%- include ('header') -%>
+  <body>
+    <%- include('header') -%>
 
-        <%- include ('navbar') -%>
+    <%- include('navbar') -%>
 
-        <div id="container">
-            <h2><%= message %></h2>
-            <form method="post" action="/process">
-                <div>
-                    <label for="txtFirstName">First Name: </label>
-                    <input type="text" id="txtFirstName" name="txtFirstName"/>
-                </div>
-                <div>
-                    <label for="txtLastName">Last Name: </label>
-                    <input type="text" id="txtLastName" name="txtLastName"/>
-                </div>
-                <div>
-                    <!--CSURF token-->
-                    <input name="_csrf" value="<%= csrfToken %>" type="hidden"/>
-                    <button type="submit" class="button-sm">Submit</button>
-                </div>
-            </form>
-        </div>
-        <br/><br/>
+    <div id="container">
+        <h2><%= message %></h2>
+        <form method="post" action="/process">
+            <div>
+                <label for="txtFirstName">First Name: </label>
+                <input type="text" id="txtFirstName" name="txtFirstName"/>
+            </div>
+            <div>
+                <label for="txtLastName">Last Name: </label>
+                <input type="text" id="txtLastName" name="txtLastName"/>
+            </div>
+            <div>
+                <!--CSURF token-->
+                <input name="_csrf" value="<%= csrfToken %>" type="hidden"/>
+                <button type="submit" class="button-sm">Submit</button>
+            </div>
+        </form>
+    </div>
+    <br/><br/>
 
-        <%- include ('footer') -%>
-        <%- include ('scripts') -%>
-    </body>
+    <%- include('footer') -%>
+    <%- include('scripts') -%>
+</body>
 </html>

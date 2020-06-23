@@ -9,10 +9,10 @@
 --->
 <!DOCTYPE html>
 <html lang="en">
-  <%- include header -%>
-
   <body>
-    <%-include navbar -%>
+    <%- include('header') -%>
+
+    <%- include('navbar') -%>
 
     <div role="main" class="container" style="width: 50%;">
       <br /><br />
@@ -38,6 +38,7 @@
       <a href="/">&larr; OK</a>
     </div>
 
-    <% include scripts %>
+    <%- include('footer') -%>
+    <%- include('scripts') -%>
   </body>
 </html>

@@ -7,7 +7,7 @@
 ; EMS milestone/employee section
 ===========================================
 */
-//mongoose requirements
+//requires the use of mongoose
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
@@ -20,5 +20,5 @@ var empSchema = new Schema({
 //defines the employee module
 var Employee = mongoose.model("Employee", empSchema);
 
-//this allows the employee schema to be exported
+//allow the employee schema to be exported
 module.exports = Employee;
