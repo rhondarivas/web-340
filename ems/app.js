@@ -13,15 +13,12 @@ var express = require("express");
 var http = require("http");
 var path = require("path");
 var logger = require("morgan");
-var mongoose = require("mongoose");
 var helmet = require("helmet");
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var csrf = require('csurf');
-var employee = require('./models/employee');
-
-//this allows express to know where to find the employee model
-var Employee = require("./models/employee")
+var bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
+var csrf = require("csurf");
+var mongoose = require("mongoose");
+const Employee = require("./models/employee");
 
 // MongoDB connection
 var conn ="mongodb+srv://useradmin:eastwood1930@buwebdev-cluster-1-992kq.mongodb.net/test"
@@ -43,38 +40,50 @@ db.once("open", function(){
     console.log("Application connected to MongoDB Atlas")
 });
 
-/**
- * This sets up CSRF protection.
- */
-let csrfProtection = csrf({ cookie: true });
+//set up csrf protection
+var csrfProtection = csrf({cookie:true});
 
-//creates the express application to a variable
+//initializes express application
 var app = express();
 
-//enables express know the views are in a file named views
-app.set("views", path.resolve(__dirname, "views"));
+//this uses the short version of the morgan logger
+app.use(logger("short"));
+//this uses the extended body parser
+app.use(
+  bodyParser.urlencoded({
+      extended: true
+  })
+);
+//this uses the helmet cross site scripting filter
+app.use(helmet.xssFilter());
+//this uses cookie parser
+app.use(cookieParser());
+//this uses csurf Protection
+app.use(csrfProtection);
+//this sets up use of csrf tokens
+app.use(function(request, response, next){
+  var token = request.csrfToken();
+  response.cookie('XSRF-TOKEN', token);
+  response.locals.csrfToken = token;
+  next();
+});
+//this lets express know where to find public/css files
+app.use(express.static(__dirname + "/public"));
 
-//enables express know where to find public/css files
-app.use(express.static(__dirname + '/'));
-
-// set statements
+//this lets express know the views are in a file named views
 app.set("views", path.resolve(__dirname, "views"));
+//this lets express know to use the ejs view engine
 app.set("view engine", "ejs");
 
-// http calls
-app.get("/", function (req, res){
-    res.render("index",{
-        message: "Homepage"
-    });
+//routing - responds with the homepage when the site
+//is accessed
+app.get("/", function(request, response){
+      response.render("index", {
+        title: "Home Page"
+  });
 });
 
-app.get('/new', function(req, res) {
-    res.render('new', {
-      message: 'Add New Employee'
-    });
-  });
-
-  //redirects to the new employee entry page
+//redirects to the new employee entry page
 app.get("/new", function(request, response){
   response.render("new", {
     title: "New Employee Entry",
@@ -108,7 +117,8 @@ app.post("/process", function(request, response){
     console.log(empName)
     //create an employee model
     var employee = new Employee({
-      name: empName
+      firstName: request.body.txtFirstName,
+      lastName: request.body.txtLastName
     });
     //save
     employee.save(function(err){
@@ -122,35 +132,7 @@ app.post("/process", function(request, response){
     });
 });
 
-//the short version of the morgan logger
-app.use(logger("short"));
-
-//enables helmet logger
-app.use(logger("short"));
-app.use(helmet.xssFilter());
-
-app.use(bodyParser.urlencoded({
-
-  extended: true
-
-}));
-
-//uses the helmet cross site scripting filter
-app.use(helmet.xssFilter());
-//uses cookie parser
-app.use(cookieParser());
-//uses csurf Protection
-app.use(csrfProtection);
-//sets up use of csrf tokens
-app.use(function(request, response, next){
-  var token = request.csrfToken();
-  response.cookie('XSRF-TOKEN', token);
-  response.locals.csrfToken = token;
-  next();
-});
-
-
-//local server on port 8080 and prints message
+//creates a local server on port 8080 and prints message
 http.createServer(app).listen(8080, function(){
     console.log("Application started on port 8080!");
 });

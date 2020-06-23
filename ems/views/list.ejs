@@ -7,36 +7,45 @@
 ; Description: Employee Records App
 ==========================================+
 --->
-<%- include('header') -%>
-<%- include('navbar') -%>
+<!DOCTYPE html>
+<html lang en="us">
+<link rel="stylesheet" type="text/css" href="../style.css">
+    <body>
+        <%- include ('header') -%>
+        <%- include ('navbar') -%>
 
-<div role="main" class="container">
+        <div role="main" class="container" style="width: 30%;">
 
-    <br/><br/>
-    <% if (employees.length) { %>
-      <h2>Employee List</h2>
-      <br>
-      <a href="/new">Add New</a>
-      <table class="table table‐hover">
-        <thead class="bg-secondary">
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% employees.forEach(function (entry) { %>
-        <tr>
-            <td><%= entry.firstName %></td>
-            <td><%= entry.lastName %></td>
-        </tr>
-        </tbody>
-        <% }) %>
-    </table>
-    <% } else { %>
-    No entries! <a href="/new">Add one!</a>
-    <% } %>
+        </br></br>
 
-</div>
+            <% if (employees.length) { %>
+            <h2>Current Employees</h2>
+            <br/>
 
-<%- include('footer') -%>
+            <br/>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% employees.forEach(function (entry) { %>
+                    <tr>
+                        <td><%= entry.firstName %></td>
+                        <td><%= entry.lastName %></td>
+                    </tr>
+                </tbody>
+                <% }) %>
+            </table>
+            <% } else { %> No entries! <a href="/new.ejs">Add one!</a>
+            <% } %>
+            <a href="/new.ejs">New Employee</a>
+            <br/>
+        </div>
+
+        <%- include ('footer') -%>
+
+    </body>
+</html>
