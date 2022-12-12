@@ -3,7 +3,7 @@
     "author": "Rhonda Rivas",
     "private": true,
     "dependencies": {
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "save": "^2.4.0"
     }
 }
